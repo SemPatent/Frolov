@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <script type="text/javascript" src="js/jqw/jqxcore.js"></script>
+    <script type="text/javascript" src="js/jqw/jqxbuttons.js"></script>
+    <script type="text/javascript" src="js/jqw/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="js/jqw/jqxlistbox.js"></script>
+    <script type="text/javascript" src="js/jqw/jqxinput.js"></script>
+    <script type="text/javascript" src="js/jqw/jqxwindow.js"></script>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+    <link type="text/css" href="css/jqx.base.css" rel="Stylesheet" />
+
+    <title>Заголовок страницы</title>
+
+    <style>
+        body {
+            font: 9pt Arial, sans-serif;
+        }
+
+        p {
+            color: #888;
+            margin: 8px 0 12px 0;
+        }
+
+        table {
+            background-color: #eee;
+            width: 300px;
+            align-self: center;
+            border: 0px solid;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var basicDemo = (function () {
+
+            function _addEventListeners() {
+                $('#showWindowButton').click(function () {
+                    $('#window').jqxWindow('open');
+                });
+            };
+
+            function _createElements() {
+                $('#showWindowButton').jqxButton({ width: '80px' });
+                $('#loadButton').jqxButton({ width: '80px' });
+                $('#button3').jqxButton({ width: '120px' });
+                $('#button4').jqxButton({ width: '120px' });
+            };
+
+            function _createWindow() {
+                $('#window').jqxWindow({
+                    showCollapseButton: true, maxHeight: 400, maxWidth: 700, minHeight: 200, minWidth: 200, height: 300, width: 500,
+                    initContent: function () {
+                        $('#window').jqxWindow('focus');
+                    }
+                });
+            };
+
+            return {
+                config: {
+                    dragArea: null
+                },
+                init: function () {
+                    _createElements();
+                    _addEventListeners();
+                    _createWindow();
+                }
+            };
+        }());
+
+        $(document).ready(function () {
+            basicDemo.init();
+            _closeWindow();
+        });
+
+        function _closeWindow() {
+            $('#window').jqxWindow('close');
+        };
+    </script>
+
+</head>
+
+<body>
+    <table class="table">
+        <tr>
+            <td></td>
+            <td align="right" width="50%">
+                <input type="button" value="Тренды" id="showWindowButton" />
+                <input type="button" value="Загрузить" id="loadButton" />
+            </td>
+            <td width="50%">
+                <h3>Схожие патенты:</h3>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td valign="top">
+                <div style="padding-top: 3px">
+                    <h3>Классификация:</h3>
+                </div>
+            </td>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td align="left">
+                            <h3>Название:</h3>
+                        </td>
+                        <td align="justify">
+                            <div id="input1">
+                                <input type="text" style="width: 250px" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <h3>Реферат:</h3>
+                <textarea id="lref" style="height: 100px; width: 325px"></textarea>
+
+                <h3>Описание:</h3>
+                <div id="opl" style="height: 400px; width: 325px; border: solid thin" />
+            </td>
+            <td valign="top">
+                <div id="list" style="height: 633px; margin-top: 12px"></div>
+            </td>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td align="left">
+                            <h3>Название:</h3>
+                        </td>
+                        <td align="justify">
+                            <div id="input2">
+                                <input type="text" style="width: 250px" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <h3>Реферат:</h3>
+                <textarea id="rref" style="height: 100px; width: 325px"></textarea>
+                <h3>Описание:</h3>
+                <div id="opr" style="height: 400px; width: 325px; border: solid thin" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" value="Найти схожие" id="button3" /></td>
+            <td>
+                <input type="button" value="Фильтрация" id="button4" /></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var listSource = [
+                { nsz: 0, np: "RU 089231 C1", nsp: 0 },
+			    { nsz: 0, np: "RU 089231 C1", nsp: 1 },
+                { nsz: 0, np: "RU 089231 C2", nsp: 0 },
+	            { nsz: 1, np: "RU 089231 C1", nsp: 2 }
+            ];
+
+            var listConllQ = [
+                "A leadframe for semiconductor devices , comprising a region which is adapted to support a semiconductor device and a plurality of leads which are arranged so as to be directed toward said region , for connection to the semiconductor device by connecting wires .",
+                "Wherein said leads include leads having at least two different lengths, leads having longer lengths providing for shorter wire connections to the semiconductor device , at least one of said leads having longer lengths comprises at least two leads merged together in an area between said region which is adapted to support a semiconductor device and leads having shorter lengths relative to said leads having longer lengths , an end portion of said at least one of said leads having longer lengths being located in the area and being adapted to support a bond wire connection ."
+            ];
+
+            var listConllP = [
+                {
+                    np: "RU 089231 C1", s: [
+                        "A leadframe for semiconductor devices , comprising a region which is adapted to support a semiconductor device and a plurality of leads which are arranged so as to be directed toward said region , for connection to the semiconductor device by connecting wires .",
+                        "Wherein said leads include leads having at least two different lengths , leads having longer lengths providing for shorter wire connections to the semiconductor device , at least one of said leads having longer lengths comprises at least two leads merged together in an area between said region which is adapted to support a semiconductor device and leads having shorter lengths relative to said leads having longer lengths , an end portion of said at least one of said leads having longer lengths being located in the area and being adapted to support a bond wire connection .",
+                        "The leadframe according to claim 1 .",
+                        "Wherein leads of said plurality of leads having longer lengths each comprises at least two adjacent leads connected together.",
+                        "The leadframe according to claim 1.",
+                        "Wherein said leads having longer lengths have end portions that are closer to said region for supporting said semiconductor device , relative to end portions of said leads having shorter lengths.",
+                        "The leadframe according to claim 1.",
+                        "Wherein said plurality of leads face each side of said semiconductor device disposed on the region."
+                    ]
+                },
+                {
+                    np: "RU 089231 C2", s: [
+                       "A leadframe for semiconductor devices , comprising a region which is adapted to support a semiconductor device and a plurality of leads which are arranged so as to be directed toward said region , for connection to the semiconductor device by connecting wires.",
+                       "Wherein said leads include leads having at least two different lengths , leads having longer lengths providing for shorter wire connections to the semiconductor device , at least one of said leads having longer lengths comprises at least two leads merged adapted to support a bond wire connection.",
+                       "The leadframe according to claim 1.",
+                       "Wherein leads of said plurality of leads having longer lengths each comprises at least two adjacent leads connected together.",
+                       "The leadframe according to claim 1.",
+                       "Wherein said leads having longer lengths have end portions that are closer to said region for supporting said semiconductor device , relative to end portions of said leads having shorter lengths.",
+                       "The leadframe according to claim 1.",
+                       "Wherein said plurality of leads face each side of said semiconductor device disposed on the region."
+                    ]
+                }
+            ];
+
+            $("#list").jqxListBox({
+                source: listSource,
+                selectedIndex: -1,
+                enableSelection: true,
+                height: "637px",
+                displayMember: "np"
+            });
+
+            $("#opl").text(listConllQ[0] + listConllQ[1]);
+
+            $("#list").on('select', function (event) {
+                var args = event.args;
+                if (args) {
+                    var item = args.item;
+
+                    var label = item.label;
+                    var obj = item.originalItem;
+
+                    var ar = [];
+                    var arr = [];
+
+                    for (var i = 0; i < listSource.length; i++) {
+                        if (listSource[i].np == label) {
+                            ar.push(listSource[i].nsz);
+                            arr.push(listSource[i].nsp);
+                        }
+                    }
+
+                    var nsz = obj.nsz;
+
+                    var temp = "";
+                    for (var i = 0; i < listConllQ.length; i++) {
+                        if (i != nsz) {
+                            if (ar.indexOf(i) > -1) {
+                                temp = temp + "<font style=\"background: lightblue\">" + listConllQ[i].toString() + "</font>";
+                            }
+                            else temp = temp + listConllQ[i].toString();
+                        }
+                        else {
+                            if (ar.indexOf(i) > -1) {
+                                temp = temp + "<font style=\"background: lightblue\" color=\"red\">" + listConllQ[i].toString() + "</font>";
+                            }
+                            else {
+                                temp = temp + "<font color=\"red\">" + listConllQ[i].toString() + "</font>";
+                            }
+                        }
+                    }
+                    $("#opl").html(temp);
+
+                    var nsp = obj.nsp;
+                    temp = "";
+                    for (var i = 0; i < listConllP.length; i++) {
+                        if (listConllP[i].np == label) {
+
+                            for (var j = 0; j < listConllP[i].s.length; j++) {
+                                if (j != nsp) {
+                                    if (arr.indexOf(j) > -1) {
+                                        temp = temp + "<font style=\"background: lightblue\">" + listConllP[i].s[j].toString() + "</font>";
+                                    }
+                                    else temp = temp + listConllP[i].s[j].toString();
+                                }
+                                else {
+                                    if (arr.indexOf(j) > -1) {
+                                        temp = temp + "<font color=\"red\" style=\"background: lightblue\">" + listConllP[i].s[j].toString() + "</font>";
+                                    }
+                                    else temp = temp + "<font color=\"red\">" + listConllP[i].s[j].toString() + "</font>";
+                                }
+                            }
+
+                        }
+                    }
+                    $("#opr").html(temp);
+
+                }
+            });
+
+            $("#input1").jqxInput({
+            });
+            $("#input2").jqxInput({
+            });
+
+        });
+    </script>
+
+    <div style="width: 100%; height: 650px; margin-top: 50px;" id="mainDemoContainer">
+        <div id="window">
+            <div id="windowHeader">
+                <span style="margin-right: 15px">Тренды
+                </span>
+            </div>
+            <div style="overflow: hidden;" id="windowContent">
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
